@@ -44,11 +44,13 @@
   changed_when: true
   when: not gnomestat.stat.exists
 
-- name: Ensure psutil is present # we need psutil to use dconf later on
+- name: Ensure psutil and more required packages are present # we need psutil to use dconf later on
   ansible.builtin.apt:
     name:
       - python3-psutil
       - xserver-xorg-video-nouveau
+      - sshpass
+      - ssh-askpass
     state: present
 
 - name: Ensure "'nl_NL.utf8'" is present as a locale
