@@ -7,8 +7,8 @@
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*quiet'
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"'
-#    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nouveau.modeset=0"'
+# line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nouveau.modeset=0"'
   register: grubfix
 
 - name: Update grub # noqa: no-handler
@@ -46,7 +46,9 @@
 
 - name: Ensure psutil is present # we need psutil to use dconf later on
   ansible.builtin.apt:
-    name: python3-psutil
+    name:
+      - python3-psutil
+      - xserver-xorg-video-nouveau
     state: present
 
 - name: Ensure "'nl_NL.utf8'" is present as a locale
@@ -79,7 +81,7 @@
 - name: Install firefox using flatpak
   community.general.flatpak:
     name: org.mozilla.firefox
-    state: latest
+    state: present
 
 - name: Import tasks to get rid of bloatware
   ansible.builtin.import_tasks:
