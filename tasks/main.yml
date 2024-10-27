@@ -49,8 +49,6 @@
     name:
       - python3-psutil
       - xserver-xorg-video-nouveau
-      - sshpass
-      - ssh-askpass
     state: present
 
 - name: Ensure "'nl_NL.utf8'" is present as a locale
@@ -93,3 +91,7 @@
   ansible.builtin.import_tasks:
     file: customize-gnome.yml
   become_user: "{{ interactive_user }}"
+
+- name: Import tasks to install and customize GIT
+  ansible.builtin.import_tasks:
+    file: configure-git.yml
