@@ -18,27 +18,39 @@
     name: user.email
     scope: global
     value: "{{ git_email }}"
+  become: true
+  become_user: "{{ interactive_user }}"
 
 - name: Configure git for default user name
   community.general.git_config:
     name: user.name
     scope: global
     value: "{{ git_user }}"
+  become: true
+  become_user: "{{ interactive_user }}"
+
 
 - name: Configure git for default branch name
   community.general.git_config:
     name: init.defaultBranch
     scope: global
     value: main
+  become: true
+  become_user: "{{ interactive_user }}"
+
 
 - name: Configure git for default credentialstore
   community.general.git_config:
     name: credential.credentialStore
     scope: global
     value: secretservice
+  become: true
+  become_user: "{{ interactive_user }}"
+
 
 - name: Now run a simple command to configure git credential manager
   ansible.builtin.command:
     cmd: git-credential-manager configure --system
   become: true
+  become_user: "{{ interactive_user }}"
   changed_when: true
