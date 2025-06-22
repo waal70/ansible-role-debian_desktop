@@ -7,6 +7,9 @@
       - git
       - sshpass
       - ssh-askpass
+      - gnome-keyring
+      - libsecret-1-0
+      - libsecret-1-dev
     state: present
 
 - name: Install a the Git Credential Manager .deb package from the internet
