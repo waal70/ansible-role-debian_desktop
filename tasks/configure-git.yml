@@ -9,7 +9,7 @@
       - ssh-askpass
     state: present
 
-- name: Install a .deb package from the internet
+- name: Install a the Git Credential Manager .deb package from the internet
   ansible.builtin.apt:
     deb: "https://github.com/git-ecosystem/git-credential-manager/releases/download/v{{ gcm_version }}/gcm-linux_amd64.{{ gcm_version }}.deb"
 
@@ -29,7 +29,6 @@
   become: true
   become_user: "{{ interactive_user }}"
 
-
 - name: Configure git for default branch name
   community.general.git_config:
     name: init.defaultBranch
@@ -38,8 +37,7 @@
   become: true
   become_user: "{{ interactive_user }}"
 
-
-- name: Configure git for default credentialstore
+- name: Configure git to use the credential manager GCM (secretservice)
   community.general.git_config:
     name: credential.credentialStore
     scope: global
@@ -47,8 +45,7 @@
   become: true
   become_user: "{{ interactive_user }}"
 
-
-- name: Now run a simple command to configure git credential manager
+- name: Configure git credential manager - change git config to reflect use of GCM
   ansible.builtin.command:
     cmd: git-credential-manager configure --system
   become: true
