@@ -73,7 +73,6 @@
       - "en_US.UTF-8"
     state: present
 
-
 - name: Add flatpak and Remmina remote desktop
   ansible.builtin.apt:
     name:
