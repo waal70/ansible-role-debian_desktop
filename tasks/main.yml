@@ -16,7 +16,7 @@
     DEBIAN_FRONTEND: noninteractive
   become: true
   changed_when: true
-  when: ansible_host == 'dev_workstation' and not gnomestat.stat.exists
+  when: "'dev_workstation' in group_names and not gnomestat.stat.exists"
 
 - name: Install the graphical desktop environment
   ansible.builtin.command:
@@ -31,7 +31,7 @@
   ansible.builtin.apt:
     name: xserver-xorg-video-nouveau
     state: present
-  when: ansible_host == 'dev_workstation'
+  when: "'dev_workstation' in group_names"
 
 - name: Ensure psutil and more required packages are present # we need psutil to use dconf later on
   ansible.builtin.apt:
