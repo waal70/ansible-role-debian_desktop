@@ -3,33 +3,6 @@
 # Coming out from preseed and common role, first order of business is to install
 # additional firmware packages:
 # nouveau.modeset=0
-- name: Fix GRUB nouveau errors and reboot
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=".*quiet'
-# line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet"'
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet nouveau.modeset=0"'
-  register: grubfix
-  when: ansible_host == 'dev_workstation'
-
-- name: Update grub # noqa: no-handler
-  ansible.builtin.command: update-grub
-  when: grubfix.changed
-  changed_when: grubfix.changed
-
-- name: Reboot after fixing GRUB # noqa: no-handler
-  ansible.builtin.reboot:
-  when: grubfix.changed
-  changed_when: grubfix.changed
-
-- name: Install (Intel) firmware packages
-  ansible.builtin.apt:
-    name:
-      - firmware-iwlwifi
-      - firmware-misc-nonfree
-      - firmware-sof-signed
-      - intel-microcode
-    state: present
 
 - name: Check for presence of graphical desktop environment
   ansible.builtin.stat:
@@ -54,7 +27,7 @@
   changed_when: true
   when: not gnomestat.stat.exists
 
-- name: Ensure install of nouveau package for laptop gnome
+- name: Ensure install of nouveau package for Thinkpad T440p
   ansible.builtin.apt:
     name: xserver-xorg-video-nouveau
     state: present
@@ -64,13 +37,6 @@
   ansible.builtin.apt:
     name:
       - python3-psutil
-    state: present
-
-- name: Ensure "'nl_NL.utf8'" is present as a locale
-  community.general.locale_gen:
-    name:
-      - "nl_NL.UTF-8"
-      - "en_US.UTF-8"
     state: present
 
 - name: Add flatpak and Remmina remote desktop
