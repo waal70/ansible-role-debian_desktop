@@ -45,7 +45,15 @@
       - flatpak
       - gnome-software-plugin-flatpak
       - remmina
+      - rustup
     state: present
+
+- name: Run rustup to install latest cargo and rust
+  ansible.builtin.command:
+    cmd: rustup install stable
+    creates: /home/{{ interactive_user }}/.cargo/bin/rustc
+  become: true
+  become_user: "{{ interactive_user }}"
 
 - name: Configure flatpak repository
   ansible.builtin.command:
