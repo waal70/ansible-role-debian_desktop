@@ -1,7 +1,13 @@
-Common
-=========
+debian_desktop
+==============
 
-This is the role that sets some defaults for a system that uses a desktop
+This is the role that sets some defaults for a system that uses a desktop.
+It will use tasksel to install gnome desktop environment and customize it
+It will install and configure git defaults
+It will delete superfluous gnome packages, such as games, LibreOffice, etc.
+It will add flatpak and its repository and installs Firefox from it
+It will install Remmina remote desktop
+It will install Rust (rustup, cargo)
 
 Requirements
 ------------
